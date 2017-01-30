@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RangeBarPreferenceSample</string>
+
+    <string name="range_bar">range_bar</string>
+    <string name="range_bar_summary">This is a range bar</string>
+    <string name="range_bar_title">Range Bar</string>
+    <string name="range_bar_default_value">Some Json</string>
+</resources>
