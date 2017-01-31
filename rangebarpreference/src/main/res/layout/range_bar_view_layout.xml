@@ -50,7 +50,6 @@
             app:pinRadius="0dp"/>
 
         <RelativeLayout
-            android:id="@+id/value_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -58,6 +57,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical">
             <LinearLayout
+                android:id="@+id/low_value_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -94,6 +94,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/high_value_holder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

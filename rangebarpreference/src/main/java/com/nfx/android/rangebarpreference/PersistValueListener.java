@@ -5,5 +5,5 @@ package com.nfx.android.rangebarpreference;
  * Created by Nick W on 30.1.17
  */
 public interface PersistValueListener {
-    boolean persistString(String value);
+    boolean persistFloat(float value);
 }

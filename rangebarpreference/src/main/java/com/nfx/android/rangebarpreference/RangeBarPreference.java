@@ -62,8 +62,10 @@ public class RangeBarPreference extends Preference implements PreferenceControll
     }
 
     @Override
-    public boolean persistString(String value) {
-        return super.persistString(value);
+    public boolean persistFloat(float value) {
+        // TODO Work out how to handle the persistent float
+        //return super.persistString(value);
+        return true;
     }
 
     @Override

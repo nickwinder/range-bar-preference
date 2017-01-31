@@ -59,10 +59,11 @@ public class RangeBarPreferenceCompat extends Preference implements PreferenceCo
     }
 
     @Override
-    public boolean persistString(String value) {
-        return super.persistString(value);
+    public boolean persistFloat(float value) {
+        // TODO Work out how to handle the persistent float
+        //return super.persistString(value);
+        return true;
     }
-
     @Override
     public boolean onLowValueChange(float lowValue) {
         // TODO Call Change listener with JSON Value
