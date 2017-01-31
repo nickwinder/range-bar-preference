@@ -1,20 +1,22 @@
 package com.nfx.android.rangebarpreference;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.sax.RootElement;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.appyvet.rangebar.RangeBar;
+
+import org.json.JSONException;
+
+import static com.nfx.android.rangebarpreference.RangeBarHelper.convertValuesToJsonString;
+import static com.nfx.android.rangebarpreference.RangeBarHelper.formatFloatToString;
 
 /**
  * NFX Development
@@ -128,14 +130,9 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
 
     @Override
     public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex,
-                                      String leftPinValue, String rightPinValue) {
-        if(changeValueListener != null) {
-            changeValueListener.onLowValueChange(Float.valueOf(leftPinValue));
-            changeValueListener.onHighValueChange(Float.valueOf(rightPinValue));
-        }
-
-        currentLowValueView.setText(leftPinValue);
-        currentHighValueView.setText(rightPinValue);
+                                      String leftPinValueString, String rightPinValueString) {
+        setCurrentLowValue(Float.valueOf(leftPinValueString));
+        setCurrentHighValue(Float.valueOf(rightPinValueString));
     }
 
     void onBind(View view) {
@@ -158,7 +155,6 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         currentHighMeasurementView = (TextView) view.findViewById(R.id.current_high_value_measurement_unit);
         currentHighValueView = (TextView) view.findViewById(R.id.current_high_value);
 
-        rangeBarView.setOnRangeBarChangeListener(this);
         // This enables the rangebar to catch drag left when in a navigation drawer
         rangeBarView.setOnTouchListener(new SeekBar.OnTouchListener()
         {
@@ -195,6 +191,9 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
 
         setCurrentLowValue(currentLowValue);
         setCurrentHighValue(currentHighValue);
+        rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
+
+        rangeBarView.setOnRangeBarChangeListener(this);
 
         currentLowBottomLineView = (FrameLayout) view.findViewById(R.id.current_low_value_bottom_line);
         currentHighBottomLineView = (FrameLayout) view.findViewById(R.id.current_high_value_bottom_line);
@@ -237,7 +236,6 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
     }
 
     void setEnabled(boolean enabled) {
-        Log.d(TAG, "setEnabled = " + enabled);
         isEnabled = enabled;
 
         if(viewStateListener != null) {
@@ -245,7 +243,6 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         }
 
         if(rangeBarView != null) { //theoretically might not always work
-            Log.d(TAG, "view is disabled!");
             rangeBarView.setEnabled(enabled);
             currentLowValueView.setEnabled(enabled);
             currentHighValueView.setEnabled(enabled);
@@ -291,80 +288,76 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         rangeBarView.setTickInterval(interval);
     }
 
-    float getCurrentLowValue() {
+    private float getCurrentLowValue() {
         return Float.parseFloat(rangeBarView.getLeftPinValue());
     }
 
-    void setCurrentLowValue(float value) {
-        if(value > currentHighValue) {
-            currentLowValue = getCurrentHighValue();
-            currentHighValue = value;
+    private void setCurrentLowValue(float value) {
+        float lowValue;
+        float highValue;
+
+        if(value < currentHighValue) {
+            lowValue = value;
+            highValue = currentHighValue;
         } else {
-            currentLowValue = value;
+            lowValue = currentHighValue;
+            highValue = value;
         }
 
-        rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
-
-        if (changeValueListener != null) {
-            if (!changeValueListener.onLowValueChange(currentLowValue)) {
-                return;
-            }
-        }
-
-        String currentLowValueString;
-        if (currentLowValue == Math.ceil(currentLowValue)) {
-            currentLowValueString = String.valueOf((int) currentLowValue);
-        } else {
-            currentLowValueString = String.valueOf(currentLowValue);
-        }
-
-        if(currentLowValueView != null) {
-            currentLowValueView.setText(currentLowValueString);
-        }
-
-
-        // TODO Make JSON into string
-//        if(persistValueListener != null) {
-//            persistValueListener.persistString(jsonString);
-//        }
+        setCurrentValues(lowValue, highValue);
     }
 
-    float getCurrentHighValue() {
+    private float getCurrentHighValue() {
         return Float.parseFloat(rangeBarView.getRightPinValue());
     }
 
-    void setCurrentHighValue(float value) {
+    private void setCurrentHighValue(float value) {
+        float lowValue;
+        float highValue;
 
-        if(value < currentLowValue) {
-            currentHighValue = getCurrentLowValue();
-            currentLowValue = value;
+        if(value > currentLowValue) {
+            lowValue = currentLowValue;
+            highValue = value;
         } else {
-            currentHighValue = value;
+            lowValue = value;
+            highValue = currentLowValue;
         }
 
-        rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
+        setCurrentValues(lowValue, highValue);
+    }
 
+    private void setCurrentValues(float lowValue, float highValue) {
         if (changeValueListener != null) {
-            if (!changeValueListener.onHighValueChange(currentHighValue)) {
+            if (!changeValueListener.onChangeValue(convertValuesToJsonString(lowValue, highValue))) {
                 return;
             }
         }
 
-        String currentHighValueString;
-        if (currentHighValue == Math.ceil(currentHighValue)) {
-            currentHighValueString = String.valueOf((int) currentHighValue);
-        } else {
-            currentHighValueString = String.valueOf(currentHighValue);
-        }
+        currentLowValue = lowValue;
+        currentHighValue = highValue;
 
+        if(currentLowValueView != null) {
+            currentLowValueView.setText(formatFloatToString(currentLowValue));
+        }
         if(currentHighValueView != null) {
-            currentHighValueView.setText(currentHighValueString);
+            currentHighValueView.setText(formatFloatToString(currentHighValue));
         }
 
         // TODO Make JSON into string
 //        if(persistValueListener != null) {
 //            persistValueListener.persistString(jsonString);
 //        }
+    }
+
+    void setValues(String jsonString) {
+        try {
+            RangeBarValueJSON rangeBarValueJSON = new RangeBarValueJSON(jsonString);
+
+            setCurrentLowValue(rangeBarValueJSON.getLowValue());
+            setCurrentHighValue(rangeBarValueJSON.getHighValue());
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     String getMeasurementUnit() {
@@ -385,7 +378,7 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         return dialogEnabled;
     }
 
-    void setDialogEnabled(boolean dialogEnabled) {
+    private void setDialogEnabled(boolean dialogEnabled) {
         this.dialogEnabled = dialogEnabled;
 
         if(lowValueHolderView != null &&
@@ -415,7 +408,11 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
                     .setPersistValueListener(new PersistValueListener() {
                         @Override
                         public boolean persistFloat(float value) {
-                            setCurrentLowValue(value);
+                            setCurrentHighValue(value);
+                            rangeBarView.setOnRangeBarChangeListener(null);
+                            rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
+                            rangeBarView.setOnRangeBarChangeListener(
+                                    PreferenceControllerDelegate.this);
                             return true;
                         }
                     })
@@ -431,6 +428,10 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
                         @Override
                         public boolean persistFloat(float value) {
                             setCurrentHighValue(value);
+                            rangeBarView.setOnRangeBarChangeListener(null);
+                            rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
+                            rangeBarView.setOnRangeBarChangeListener(
+                                    PreferenceControllerDelegate.this);
                             return true;
                         }
                     })

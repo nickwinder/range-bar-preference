@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static com.nfx.android.rangebarpreference.RangeBarHelper.formatFloatToString;
+
 /**
  * NFX Development
  * Created by Nick on 21.01.16
@@ -45,9 +47,9 @@ class CustomValueDialog {
         TextView maxValueView = (TextView) dialogView.findViewById(R.id.maxValue);
         customValueView = (EditText) dialogView.findViewById(R.id.customValue);
 
-        minValueView.setText(String.valueOf(minValue));
-        maxValueView.setText(String.valueOf(maxValue));
-        customValueView.setHint(String.valueOf(currentValue));
+        minValueView.setText(formatFloatToString(minValue));
+        maxValueView.setText(formatFloatToString(maxValue));
+        customValueView.setHint(formatFloatToString(currentValue));
 
         LinearLayout colorView = (LinearLayout) dialogView.findViewById(R.id.dialog_color_area);
         colorView.setBackgroundColor(fetchAccentColor(dialogBuilder.getContext()));

@@ -64,19 +64,11 @@ public class RangeBarPreference extends Preference implements PreferenceControll
     @Override
     public boolean persistFloat(float value) {
         // TODO Work out how to handle the persistent float
-        //return super.persistString(value);
         return true;
     }
 
     @Override
-    public boolean onLowValueChange(float lowValue) {
-        // TODO Call Change listener with JSON Value
-        return false;
-    }
-
-    @Override
-    public boolean onHighValueChange(float highValue) {
-        // TODO Call Change listener with JSON Value
-        return false;
+    public boolean onChangeValue(String jsonString) {
+        return callChangeListener(jsonString);
     }
 }

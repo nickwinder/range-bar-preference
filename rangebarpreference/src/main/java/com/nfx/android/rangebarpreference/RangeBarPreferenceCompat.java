@@ -64,16 +64,10 @@ public class RangeBarPreferenceCompat extends Preference implements PreferenceCo
         //return super.persistString(value);
         return true;
     }
-    @Override
-    public boolean onLowValueChange(float lowValue) {
-        // TODO Call Change listener with JSON Value
-        return false;
-    }
+
 
     @Override
-    public boolean onHighValueChange(float highValue) {
-        // TODO Call Change listener with JSON Value
-        return false;
+    public boolean onChangeValue(String jsonString) {
+        return callChangeListener(jsonString);
     }
-
 }
