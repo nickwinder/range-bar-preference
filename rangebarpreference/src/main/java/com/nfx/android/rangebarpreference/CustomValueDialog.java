@@ -23,13 +23,11 @@ import static com.nfx.android.rangebarpreference.RangeBarHelper.formatFloatToStr
 class CustomValueDialog {
 
     private final String TAG = getClass().getSimpleName();
-
+    private final float minValue;
+    private final float maxValue;
+    private final float currentValue;
     private Dialog dialog;
     private EditText customValueView;
-
-    private float minValue;
-    private float maxValue;
-    private float currentValue;
     private CustomValueDialogListener persistValueListener;
 
     CustomValueDialog(Context context, int theme, float minValue, float maxValue, float currentValue) {
@@ -111,7 +109,7 @@ class CustomValueDialog {
             }
         }
         catch (Exception e) {
-            Log.e(TAG, "worng input(non-integer): " + customValueView.getText().toString());
+            Log.e(TAG, "wrong input(non-integer): " + customValueView.getText().toString());
             notifyWrongInput();
             return;
         }

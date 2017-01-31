@@ -5,5 +5,5 @@ package com.nfx.android.rangebarpreference;
  * Created by nick on 1/02/17.
  */
 interface CustomValueDialogListener {
-    boolean onChangeValue(float value);
+    void onChangeValue(float value);
 }

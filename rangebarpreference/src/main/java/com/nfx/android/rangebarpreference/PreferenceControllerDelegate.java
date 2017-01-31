@@ -31,30 +31,21 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
     private static final boolean DEFAULT_DIALOG_ENABLED = true;
     private static final boolean DEFAULT_IS_ENABLED = true;
     private static final int DEFAULT_DIALOG_STYLE = R.style.Range_Bar_Dialog_Default;
-    private final String TAG = getClass().getSimpleName();
+    private final Context context;
     private String measurementUnit;
     private boolean dialogEnabled = DEFAULT_DIALOG_ENABLED;
-
     private int dialogStyle;
-
     private TextView currentLowValueView;
     private TextView currentLowMeasurementView;
     private FrameLayout currentLowBottomLineView;
     private LinearLayout lowValueHolderView;
-
     private TextView currentHighValueView;
     private TextView currentHighMeasurementView;
     private FrameLayout currentHighBottomLineView;
     private LinearLayout highValueHolderView;
-
     private RangeBar rangeBarView;
-
     //view stuff
-    private TextView titleView, summaryView;
-    private String title;
-    private String summary;
     private boolean isEnabled = DEFAULT_IS_ENABLED;
-
     //controller stuff
     private float currentLowValue = DEFAULT_CURRENT_LOW_VALUE;
     private float currentHighValue = DEFAULT_CURRENT_HIGH_VALUE;
@@ -63,57 +54,51 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
     private float tickStart = DEFAULT_TICK_START;
     private float tickEnd = DEFAULT_TICK_END;
     private float tickInterval = DEFAULT_TICK_INTERVAL;
-    private boolean isView = false;
-    private Context context;
     private ViewStateListener viewStateListener;
     private PersistValueListener persistValueListener;
     private ChangeValueListener changeValueListener;
-
-    private boolean dragEvent = false;
-    private View.OnClickListener currentLowValueClickListener = new View.OnClickListener() {
+    private final View.OnClickListener currentLowValueClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
             new CustomValueDialog(context, dialogStyle, getTickStart(), getTickEnd(),
                     getCurrentLowValue())
                     .setOnChangeListener(new CustomValueDialogListener() {
                         @Override
-                        public boolean onChangeValue(float value) {
+                        public void onChangeValue(float value) {
                             setLocalLowValue(value);
                             persistValues();
                             rangeBarView.setOnRangeBarChangeListener(null);
                             rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
                             rangeBarView.setOnRangeBarChangeListener(
                                     PreferenceControllerDelegate.this);
-                            return true;
                         }
                     })
                     .show();
         }
     };
-    private View.OnClickListener currentHighValueClickListener = new View.OnClickListener() {
+    private final View.OnClickListener currentHighValueClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
             new CustomValueDialog(context, dialogStyle, getTickStart(), getTickEnd(),
                     getCurrentHighValue())
                     .setOnChangeListener(new CustomValueDialogListener() {
                         @Override
-                        public boolean onChangeValue(float value) {
+                        public void onChangeValue(float value) {
                             setLocalHighValue(value);
                             persistValues();
                             rangeBarView.setOnRangeBarChangeListener(null);
                             rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
                             rangeBarView.setOnRangeBarChangeListener(
                                     PreferenceControllerDelegate.this);
-                            return true;
                         }
                     })
                     .show();
         }
     };
+    private boolean dragEvent = false;
 
-    PreferenceControllerDelegate(Context context, Boolean isView) {
+    PreferenceControllerDelegate(Context context) {
         this.context = context;
-        this.isView = isView;
     }
 
     void setPersistValueListener(PersistValueListener persistValueListener) {
@@ -142,19 +127,10 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
                 currentHighValue = attrs.getAttributeFloatValue("http://schemas.android.com/apk/res/android", "defaultHighValue", DEFAULT_CURRENT_HIGH_VALUE);
 
 //                TODO make it work:
-//                dialogStyle = a.getInt(R.styleable.SeekBarPreference_msbp_interval, DEFAULT_DIALOG_STYLE);
+//                dialogStyle = a.getInt(R.styleable.RangeBarPreference_rbp_dialogStyle,
+// DEFAULT_DIALOG_STYLE);
 
                 dialogStyle = DEFAULT_DIALOG_STYLE;
-
-                if(isView) {
-                    title = a.getString(R.styleable.RangeBarPreference_rbp_view_title);
-
-                    summary = a.getString(R.styleable.RangeBarPreference_rbp_view_summary);
-                    currentLowValue = a.getFloat(R.styleable.RangeBarPreference_rbp_view_defaultLowValue, DEFAULT_CURRENT_LOW_VALUE);
-                    currentHighValue = a.getFloat(R.styleable.RangeBarPreference_rbp_view_defaultHighValue, DEFAULT_CURRENT_HIGH_VALUE);
-
-                    isEnabled = a.getBoolean(R.styleable.RangeBarPreference_rbp_view_enabled, DEFAULT_IS_ENABLED);
-                }
             }
             finally {
                 a.recycle();
@@ -188,17 +164,6 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
     }
 
     void onBind(View view) {
-
-        if(isView) {
-            titleView = (TextView) view.findViewById(android.R.id.title);
-            summaryView = (TextView) view.findViewById(android.R.id.summary);
-
-            titleView.setText(title);
-            summaryView.setText(summary);
-        }
-
-        view.setClickable(false);
-
         rangeBarView = (RangeBar) view.findViewById(R.id.range_bar);
 
         currentLowMeasurementView = (TextView) view.findViewById(R.id.current_low_value_measurement_unit);
@@ -257,30 +222,8 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         setEnabled(isEnabled());
     }
 
-    String getTitle() {
-        return title;
-    }
-
-    void setTitle(String title) {
-        this.title = title;
-        if(titleView != null) {
-            titleView.setText(title);
-        }
-    }
-
-    String getSummary() {
-        return summary;
-    }
-
-    void setSummary(String summary) {
-        this.summary = summary;
-        if(rangeBarView != null) {
-            summaryView.setText(summary);
-        }
-    }
-
     boolean isEnabled() {
-        if(!isView && viewStateListener != null) {
+        if(viewStateListener != null) {
             return viewStateListener.isEnabled();
         }
         else return isEnabled;
@@ -306,11 +249,6 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
             currentLowMeasurementView.setEnabled(enabled);
             currentLowBottomLineView.setEnabled(enabled);
             currentHighBottomLineView.setEnabled(enabled);
-
-            if(isView) {
-                titleView.setEnabled(enabled);
-                summaryView.setEnabled(enabled);
-            }
         }
 
     }

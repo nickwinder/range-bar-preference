@@ -40,7 +40,7 @@ public class RangeBarPreference extends Preference implements PreferenceControll
     private void init(AttributeSet attrs) {
         setLayoutResource(R.layout.range_bar_view_layout);
 
-        controllerDelegate = new PreferenceControllerDelegate(getContext(), false);
+        controllerDelegate = new PreferenceControllerDelegate(getContext());
 
         controllerDelegate.setViewStateListener(this);
         controllerDelegate.setPersistValueListener(this);

@@ -2,11 +2,8 @@ package com.nfx.android.rangebarpreferencesample;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -27,6 +24,15 @@ public class RangeBarActivity extends AppCompatActivity {
     public static class RangeBarFragment extends PreferenceFragment
             implements SharedPreferences.OnSharedPreferenceChangeListener {
         private static final String TAG = RangeBarFragment.class.getName();
+        final Preference.OnPreferenceChangeListener preferenceChangeListener =
+                new Preference.OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        Log.i(TAG, "onPreferenceChange called Preference Change Key : " +
+                                getString(R.string.range_bar) + " value : " + newValue);
+                        return true;
+                    }
+                };
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -59,15 +65,5 @@ public class RangeBarActivity extends AppCompatActivity {
             Log.i(TAG, "onSharedPreferenceChanged called Preference Change Key : " +
                     key + " value : " + sharedPreferences.getString(key, "N/A"));
         }
-
-        Preference.OnPreferenceChangeListener preferenceChangeListener =
-                new Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        Log.i(TAG, "onPreferenceChange called Preference Change Key : " +
-                                getString(R.string.range_bar) + " value : " + newValue);
-                        return true;
-                    }
-                };
     }
 }
