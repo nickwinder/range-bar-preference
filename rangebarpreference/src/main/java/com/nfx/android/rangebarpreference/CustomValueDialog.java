@@ -1,5 +1,6 @@
 package com.nfx.android.rangebarpreference;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -29,7 +30,7 @@ class CustomValueDialog {
     private float minValue;
     private float maxValue;
     private float currentValue;
-    private PersistValueListener persistValueListener;
+    private CustomValueDialogListener persistValueListener;
 
     CustomValueDialog(Context context, int theme, float minValue, float maxValue, float currentValue) {
         this.minValue = minValue;
@@ -40,7 +41,9 @@ class CustomValueDialog {
     }
 
     private void init(AlertDialog.Builder dialogBuilder) {
-        View dialogView = LayoutInflater.from(dialogBuilder.getContext()).inflate(R.layout.value_selector_dialog, null);
+        @SuppressLint("InflateParams")
+        View dialogView = LayoutInflater.from(
+                dialogBuilder.getContext()).inflate(R.layout.value_selector_dialog, null);
         dialog = dialogBuilder.setView(dialogView).create();
 
         TextView minValueView = (TextView) dialogView.findViewById(R.id.minValue);
@@ -82,7 +85,7 @@ class CustomValueDialog {
         return color;
     }
 
-    CustomValueDialog setPersistValueListener(PersistValueListener listener) {
+    CustomValueDialog setOnChangeListener(CustomValueDialogListener listener) {
         persistValueListener = listener;
         return this;
     }
@@ -114,7 +117,7 @@ class CustomValueDialog {
         }
 
         if(persistValueListener != null) {
-            persistValueListener.persistFloat(value);
+            persistValueListener.onChangeValue(value);
             dialog.dismiss();
         }
     }

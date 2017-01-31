@@ -327,8 +327,9 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
     }
 
     private void setCurrentValues(float lowValue, float highValue) {
+        String jsonString = convertValuesToJsonString(lowValue, highValue);
         if (changeValueListener != null) {
-            if (!changeValueListener.onChangeValue(convertValuesToJsonString(lowValue, highValue))) {
+            if (!changeValueListener.onChangeValue(jsonString)) {
                 return;
             }
         }
@@ -343,10 +344,9 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
             currentHighValueView.setText(formatFloatToString(currentHighValue));
         }
 
-        // TODO Make JSON into string
-//        if(persistValueListener != null) {
-//            persistValueListener.persistString(jsonString);
-//        }
+        if(persistValueListener != null) {
+            persistValueListener.persistString(jsonString);
+        }
     }
 
     void setValues(String jsonString) {
@@ -405,10 +405,10 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         @Override
         public void onClick(final View v) {
             new CustomValueDialog(context, dialogStyle, getTickStart(), getTickEnd(), getCurrentLowValue())
-                    .setPersistValueListener(new PersistValueListener() {
+                    .setOnChangeListener(new CustomValueDialogListener() {
                         @Override
-                        public boolean persistFloat(float value) {
-                            setCurrentHighValue(value);
+                        public boolean onChangeValue(float value) {
+                            setCurrentLowValue(value);
                             rangeBarView.setOnRangeBarChangeListener(null);
                             rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
                             rangeBarView.setOnRangeBarChangeListener(
@@ -424,9 +424,9 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener 
         @Override
         public void onClick(final View v) {
             new CustomValueDialog(context, dialogStyle, getTickStart(), getTickEnd(), getCurrentHighValue())
-                    .setPersistValueListener(new PersistValueListener() {
+                    .setOnChangeListener(new CustomValueDialogListener() {
                         @Override
-                        public boolean persistFloat(float value) {
+                        public boolean onChangeValue(float value) {
                             setCurrentHighValue(value);
                             rangeBarView.setOnRangeBarChangeListener(null);
                             rangeBarView.setRangePinsByValue(currentLowValue, currentHighValue);
