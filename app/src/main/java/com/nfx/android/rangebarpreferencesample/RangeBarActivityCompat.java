@@ -49,7 +49,7 @@ public class RangeBarActivityCompat extends AppCompatActivity implements View.On
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.preference_range_bar);
+            addPreferencesFromResource(R.xml.preference_range_bar_compat);
         }
 
         @Override
