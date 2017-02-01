@@ -7,6 +7,8 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
+import static com.nfx.android.rangebarpreference.RangeBarHelper.convertValuesToJsonString;
+
 /**
  * NFX Development
  * Created by nick on 29/01/17.
@@ -58,7 +60,11 @@ public class RangeBarPreference extends Preference implements PreferenceControll
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         super.onSetInitialValue(restorePersistedValue, defaultValue);
-        // TODO Use to setup values in object
+        String jsonString = convertValuesToJsonString(controllerDelegate.getCurrentLowValue(),
+                controllerDelegate.getCurrentHighValue());
+
+        controllerDelegate.setValues(getPersistedString(jsonString));
+        controllerDelegate.persistValues();
     }
 
     @Override

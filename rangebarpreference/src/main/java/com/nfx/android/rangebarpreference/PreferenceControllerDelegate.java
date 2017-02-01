@@ -277,8 +277,8 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         rangeBarView.setTickInterval(interval);
     }
 
-    private float getCurrentLowValue() {
-        return Float.parseFloat(rangeBarView.getLeftPinValue());
+    float getCurrentLowValue() {
+        return currentLowValue;
     }
 
     private void setLocalLowValue(float value) {
@@ -296,8 +296,8 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         setLocalValues(lowValue, highValue);
     }
 
-    private float getCurrentHighValue() {
-        return Float.parseFloat(rangeBarView.getRightPinValue());
+    float getCurrentHighValue() {
+        return currentHighValue;
     }
 
     private void setLocalHighValue(float value) {
@@ -316,8 +316,8 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
     }
 
     private void setLocalValues(float lowValue, float highValue) {
-        tempLowValue = lowValue;
-        tempHighValue = highValue;
+        tempLowValue = (lowValue > tickStart) ? lowValue : tickStart;
+        tempHighValue = (highValue < tickEnd) ? highValue : tickEnd;
 
         if(currentLowValueView != null) {
             currentLowValueView.setText(formatFloatToString(tempLowValue));
@@ -327,7 +327,7 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         }
     }
 
-    private void persistValues() {
+    void persistValues() {
         String jsonString = convertValuesToJsonString(tempLowValue, tempHighValue);
 
         if (changeValueListener != null) {

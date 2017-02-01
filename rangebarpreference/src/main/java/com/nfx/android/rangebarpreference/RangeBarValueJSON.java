@@ -21,20 +21,20 @@ class RangeBarValueJSON {
         this.jsonObject = new JSONObject(jsonString);
     }
 
+    float getLowValue() throws JSONException {
+        return (float) jsonObject.getDouble(LOW_VALUE_KEY);
+    }
+
     void setLowValue(float lowValue) throws JSONException {
         jsonObject.put(LOW_VALUE_KEY, lowValue);
     }
 
+    float getHighValue() throws JSONException {
+        return (float) jsonObject.getDouble(HIGH_VALUE_KEY);
+    }
+
     void setHighValue(float highValue) throws JSONException {
         jsonObject.put(HIGH_VALUE_KEY, highValue);
-    }
-
-    float getLowValue() throws JSONException {
-        return (float) jsonObject.get(LOW_VALUE_KEY);
-    }
-
-    float getHighValue() throws JSONException {
-        return (float) jsonObject.get(HIGH_VALUE_KEY);
     }
 
     @Override
