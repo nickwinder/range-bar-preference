@@ -281,6 +281,11 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         return currentLowValue;
     }
 
+    void setCurrentLowValue(float value) {
+        setLocalLowValue(value);
+        persistValues();
+    }
+
     private void setLocalLowValue(float value) {
         float lowValue;
         float highValue;
@@ -298,6 +303,11 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
 
     float getCurrentHighValue() {
         return currentHighValue;
+    }
+
+    void setCurrentHighValue(float value) {
+        setLocalHighValue(value);
+        persistValues();
     }
 
     private void setLocalHighValue(float value) {
@@ -373,7 +383,7 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         return dialogEnabled;
     }
 
-    private void setDialogEnabled(boolean dialogEnabled) {
+    void setDialogEnabled(boolean dialogEnabled) {
         this.dialogEnabled = dialogEnabled;
 
         if(lowValueHolderView != null &&
