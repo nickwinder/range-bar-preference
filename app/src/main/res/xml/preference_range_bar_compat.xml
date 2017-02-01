@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.nfx.android.rangebarpreference.RangeBarPreferenceCompat
-        android:defaultValue="@string/ranged_bar_default_value"
+        android:defaultValue="@string/range_bar_default_value"
         android:key="@string/range_bar"
         android:summary="@string/range_bar_summary"
         android:title="@string/range_bar_title"
