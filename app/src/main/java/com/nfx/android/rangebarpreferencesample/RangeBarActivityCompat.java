@@ -1,5 +1,6 @@
 package com.nfx.android.rangebarpreferencesample;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v14.preference.PreferenceFragment;
@@ -24,13 +25,16 @@ public class RangeBarActivityCompat extends AppCompatActivity implements View.On
                 new RangeBarFragmentCompat()).commit();
 
         Button button = (Button) findViewById(R.id.switch_mode_button);
-        button.setText(getString(R.string.switch_to_sdk));
+        button.setText(getString(R.string.switch_to_standard));
         button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        // TODO Implement back button in code
+        Intent intent = new Intent(this, RangeBarActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     public static class RangeBarFragmentCompat extends PreferenceFragment

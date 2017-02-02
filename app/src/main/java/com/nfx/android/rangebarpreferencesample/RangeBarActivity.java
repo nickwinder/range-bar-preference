@@ -32,7 +32,9 @@ public class RangeBarActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, RangeBarActivityCompat.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     public static class RangeBarFragment extends PreferenceFragment

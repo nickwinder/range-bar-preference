@@ -6,5 +6,5 @@
     <string name="range_bar_title">Range Bar</string>
     <string name="range_bar_default_value">Some Json</string>
     <string name="switch_to_compat">Switch To Compat</string>
-    <string name="switch_to_sdk">Switch To SDK</string>
+    <string name="switch_to_standard">Switch To Standard</string>
 </resources>
