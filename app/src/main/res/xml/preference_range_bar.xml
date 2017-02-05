@@ -9,5 +9,7 @@
         app:rbp_measurementUnit="samples"
         app:rbp_tickEnd="@string/end_tick"
         app:rbp_tickInterval="@string/interval_tick"
-        app:rbp_tickStart="@string/start_tick"/>
+        app:rbp_tickStart="@string/start_tick"
+        app:rbp_view_defaultHighValue="@string/default_high_value"
+        app:rbp_view_defaultLowValue="@string/default_low_value"/>
 </PreferenceScreen>

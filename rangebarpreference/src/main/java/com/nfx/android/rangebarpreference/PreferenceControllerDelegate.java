@@ -123,9 +123,10 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
                 dialogEnabled = a.getBoolean(R.styleable.RangeBarPreference_rbp_dialogEnabled, DEFAULT_DIALOG_ENABLED);
 
                 measurementUnit = a.getString(R.styleable.RangeBarPreference_rbp_measurementUnit);
-                currentLowValue = attrs.getAttributeFloatValue("http://schemas.android.com/apk/res/android", "defaultLowValue", DEFAULT_CURRENT_LOW_VALUE);
-                currentHighValue = attrs.getAttributeFloatValue("http://schemas.android.com/apk/res/android", "defaultHighValue", DEFAULT_CURRENT_HIGH_VALUE);
-
+                currentLowValue = a.getFloat(R.styleable
+                        .RangeBarPreference_rbp_view_defaultLowValue, DEFAULT_CURRENT_LOW_VALUE);
+                currentHighValue = a.getFloat(R.styleable
+                        .RangeBarPreference_rbp_view_defaultHighValue, DEFAULT_CURRENT_HIGH_VALUE);
 //                TODO make it work:
 //                dialogStyle = a.getInt(R.styleable.RangeBarPreference_rbp_dialogStyle,
 // DEFAULT_DIALOG_STYLE);
@@ -358,8 +359,8 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         try {
             RangeBarValueJSON rangeBarValueJSON = new RangeBarValueJSON(jsonString);
 
-            setLocalLowValue(rangeBarValueJSON.getLowValue());
             setLocalHighValue(rangeBarValueJSON.getHighValue());
+            setLocalLowValue(rangeBarValueJSON.getLowValue());
         } catch(JSONException e) {
             e.printStackTrace();
         }

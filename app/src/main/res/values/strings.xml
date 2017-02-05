@@ -11,4 +11,6 @@
     <string name="start_tick">500</string>
     <string name="end_tick">2000</string>
     <string name="interval_tick">1</string>
+    <string name="default_low_value">700</string>
+    <string name="default_high_value">1000</string>
 </resources>
