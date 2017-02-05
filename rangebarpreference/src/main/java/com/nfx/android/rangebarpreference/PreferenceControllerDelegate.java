@@ -199,6 +199,7 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
             }
         });
 
+        rangeBarView.setPinTextFormatter(new PreferencePinFormatterText());
         rangeBarView.setTickEnd(tickEnd);
         rangeBarView.setTickStart(tickStart);
         rangeBarView.setTickInterval(tickInterval);

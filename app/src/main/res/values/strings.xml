@@ -8,9 +8,9 @@
     <string name="switch_to_compat">Switch To Compat</string>
     <string name="switch_to_standard">Switch To Standard</string>
 
-    <string name="start_tick">500</string>
-    <string name="end_tick">2000</string>
+    <string name="start_tick">5000</string>
+    <string name="end_tick">20000</string>
     <string name="interval_tick">1</string>
-    <string name="default_low_value">700</string>
-    <string name="default_high_value">1000</string>
+    <string name="default_low_value">7000</string>
+    <string name="default_high_value">10000</string>
 </resources>
