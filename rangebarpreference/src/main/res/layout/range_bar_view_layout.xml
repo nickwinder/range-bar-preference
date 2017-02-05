@@ -46,8 +46,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barWeight="2dp"
+            app:connectingLineColor="?attr/colorAccent"
             app:connectingLineWeight="1dp"
-            app:pinRadius="0dp"/>
+            app:pinRadius="0dp"
+            app:selectorColor="?attr/colorAccent"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
