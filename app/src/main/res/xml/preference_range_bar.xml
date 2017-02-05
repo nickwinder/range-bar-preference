@@ -2,9 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.nfx.android.rangebarpreference.RangeBarPreference
-        android:key="@string/range_bar"
         android:defaultValue="@string/range_bar_default_value"
+        android:key="@string/range_bar"
         android:summary="@string/range_bar_summary"
         android:title="@string/range_bar_title"
-        app:rbp_measurementUnit="samples"/>
+        app:rbp_measurementUnit="samples"
+        app:rbp_tickEnd="@string/end_tick"
+        app:rbp_tickInterval="@string/interval_tick"
+        app:rbp_tickStart="@string/start_tick"/>
 </PreferenceScreen>
