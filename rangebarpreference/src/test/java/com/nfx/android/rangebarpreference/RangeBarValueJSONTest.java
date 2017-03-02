@@ -23,7 +23,7 @@ public class RangeBarValueJSONTest {
     private static final String exampleJson =
             "{\"lowValue\":" + LOW_VALUE + ",\"highValue\":" + HIGH_VALUE + "}";
 
-    private RangeBarValueJSON rangeBarValueJSON = new RangeBarValueJSON(exampleJson);
+    private final RangeBarValueJSON rangeBarValueJSON = new RangeBarValueJSON(exampleJson);
 
     public RangeBarValueJSONTest() throws JSONException {
     }

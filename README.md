@@ -97,4 +97,4 @@ Please push back changes to help the library mature.
 
 ## Acknowledgments
 
-* Thanks to [oli107](https://github.com/oli107) for the orignal range bar library.
+* Thanks to [oli107](https://github.com/oli107) for the original range bar library.

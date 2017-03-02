@@ -220,15 +220,6 @@ public class RangeBarActivityTest {
                         isDisplayed()));
         view.check(matches(isDisplayed()));
 
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.current_low_value),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.low_value_holder),
-                                        0),
-                                0),
-                        isDisplayed()));
-
         ViewInteraction textView4 = onView(
                 allOf(withId(R.id.current_low_value_measurement_unit), withText("samples"),
                         childAtPosition(
@@ -238,15 +229,6 @@ public class RangeBarActivityTest {
                                 1),
                         isDisplayed()));
         textView4.check(matches(withText("samples")));
-
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.current_high_value),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.high_value_holder),
-                                        0),
-                                0),
-                        isDisplayed()));
 
         ViewInteraction textView6 = onView(
                 allOf(withId(R.id.current_high_value_measurement_unit), withText("samples"),

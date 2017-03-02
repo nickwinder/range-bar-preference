@@ -224,14 +224,14 @@ class PreferenceControllerDelegate implements RangeBar.OnRangeBarChangeListener,
         setEnabled(isEnabled());
     }
 
-    boolean isEnabled() {
+    private boolean isEnabled() {
         if(viewStateListener != null) {
             return viewStateListener.isEnabled();
         }
         else return isEnabled;
     }
 
-    void setEnabled(boolean enabled) {
+    private void setEnabled(boolean enabled) {
         isEnabled = enabled;
 
         if(viewStateListener != null) {
