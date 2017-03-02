@@ -68,9 +68,24 @@ public void setDialogEnabled(boolean dialogEnabled);
 public void setDialogStyle(int dialogStyle);
 ````
 
+As there are 2 values stored as shared preferences, they are stored as a JSON string. It follows the format below.
+
+```JSON
+  {lowValue:LOW_VALUE, highValue:HIGH_VALUE}
+````
+
+This can be a little troublesome to parse therefore static helper classes exist to mitigate these problems. Use the following examples for guidance
+```java
+    String jsonString = RangeBarHelper.convertValuesToJsonString(LOW_VALUE, HIGH_VALUE);
+
+    RangeBarHelper.getLowValueFromJsonString(jsonString);
+    RangeBarHelper.getHighValueFromJsonString(jsonString);
+````
+
+
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [tags on this repository](https://github.com/nfxdevelopment/range-bar-preferences/tags).
 
 ## Authors
 
