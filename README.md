@@ -71,10 +71,10 @@ public void setDialogStyle(int dialogStyle);
 As there are 2 values stored as shared preferences, they are stored as a JSON string. It follows the format below.
 
 ```JSON
-  {lowValue:LOW_VALUE, highValue:HIGH_VALUE}
+{"lowValue":"LOW_VALUE", "highValue":"HIGH_VALUE"}
 ````
 
-This can be a little troublesome to parse therefore static helper classes exist to mitigate these problems. Use the following examples for guidance
+This can be a little troublesome to parse therefore a static helper class exists to mitigate these problems. Use the following examples for guidance
 ```java
     String jsonString = RangeBarHelper.convertValuesToJsonString(LOW_VALUE, HIGH_VALUE);
 
@@ -97,4 +97,4 @@ Please push back changes to help the library mature.
 
 ## Acknowledgments
 
-* Thanks to [oli107](https://github.com/oli107) for the original range bar library.
+* Thanks to [oli107](https://github.com/oli107) for the orignal range bar library.
