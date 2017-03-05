@@ -9,7 +9,7 @@ Ever wanted to use a range bar in your android shared preferences. This library 
 
 Add this to your module dependencies:
 ```groovy
-    compile 'com.nfx.android:range-bar-preference:0.0.5'
+    compile 'com.nfx.android:range-bar-preference:0.0.6'
 ````
 
 Now just add the preference to to your preference xml file like any other preference
