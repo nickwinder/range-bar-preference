@@ -1,1 +1,1 @@
-include ':app', ':rangebarpreference'
+include ':app', ':range-bar-preference'

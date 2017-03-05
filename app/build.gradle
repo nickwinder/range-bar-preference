@@ -32,5 +32,5 @@ dependencies {
     compile 'com.android.support:preference-v14:25.2.0'
 
     testCompile 'junit:junit:4.12'
-    compile project(path: ':rangebarpreference')
+    compile project(path: ':range-bar-preference')
 }
